@@ -1,0 +1,8 @@
+node_modules
+.DS_Store
+yarn.lock
+.env
+logs/
+src/uploads
+src/controllers/common/src/csv
+src/controllers/common/src/pdf
