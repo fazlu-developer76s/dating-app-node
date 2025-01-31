@@ -15,18 +15,16 @@ connectDB();
 
 const app = express();
 const server = http.createServer(app); // Create an HTTP server
+
 const io = new Server(server, {
   cors: {
-    origin: '*',
-    methods: ['GET', 'POST'],
+    origin: '*'
   },
 });
 
 
-setTimeout(() => {
+
   setupSocket(io);
-}, 2000); // 2-second delay
- // Initialize your socket setup
 
 app.use(cors({ origin: '*' }));
 app.use(express.json());
