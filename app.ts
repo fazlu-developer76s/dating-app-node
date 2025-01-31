@@ -22,7 +22,11 @@ const io = new Server(server, {
   },
 });
 
-setupSocket(io); // Initialize your socket setup
+
+setTimeout(() => {
+  setupSocket(io);
+}, 2000); // 2-second delay
+ // Initialize your socket setup
 
 app.use(cors({ origin: '*' }));
 app.use(express.json());
