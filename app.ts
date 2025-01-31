@@ -27,6 +27,10 @@ setupSocket(io); // Initialize your socket setup
 app.use(cors({ origin: '*' }));
 app.use(express.json());
 
+app.get('/', (req, res) => {
+  res.send('Hello World!')
+})
+
 app.use("/api/v1", (req, res, next) => {
   next()
 }, v1);
