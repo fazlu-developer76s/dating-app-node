@@ -11,7 +11,6 @@ const roleAuthorization = (allowedRoles: string | any[]) => {
         }
         try {
             let tokenVerify = verifyToken(token);
-
             let tokenParse = JSON.parse(tokenVerify.id);
             const userRole = tokenParse.role;
             req.authUser = tokenParse

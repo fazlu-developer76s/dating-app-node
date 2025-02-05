@@ -10,6 +10,10 @@ import interestModel from '../../models/interestModel';
 import privacyModel from '../../models/privacyModel';
 import termsConditionModel from '../../models/termsConditionModel';
 import languageModel from '../../models/languageModel';
+import { Message } from 'twilio/lib/twiml/MessagingResponse';
+import Chat from '../../models/chatModel';
+import Message0 from '../../models/messageModel';
+
 
 export const getUser = async (req: Request, res: Response): Promise<void> => {
     try {
@@ -46,9 +50,27 @@ export const getUser = async (req: Request, res: Response): Promise<void> => {
 
 export const getUserList = async (req: Request, res: Response): Promise<void> => {
     try {
-        const user = await User.find({ role: { $nin: ["admin"] } }).select('name profilePic');
-
-        res.status(200).json(successResponse('OK', user, 'Record fetched successfully'));
+        const users = await User.find({ role: { $nin: ["admin"] } , _id: { $nin: req.authUser.id } }).select("name media _id");
+        let newusers: any[] = [];
+        for (const user of users) {
+          const getroom = await Chat.findOne({ receiverId: user._id }).select("roomId");
+          const getLastMessage = await Message0.findOne({ roomId: getroom?.roomId });
+    
+          const LastMessage = getLastMessage?.message?.[getLastMessage?.message.length - 1] || null;
+          let count = 0;
+    
+          if (getLastMessage) {
+            count = getLastMessage.message.filter((msg) => msg.view === "0").length;
+          }
+          newusers.push({
+            userId: user._id,
+            name: user.name,
+            media: user.media,
+            last_message: LastMessage,
+            unread_count: count,
+          });
+        }
+        res.status(200).json(successResponse('OK', newusers, 'Record fetched successfully'));
         return
     } catch (error) {
         console.error('Registration error:', error);
@@ -56,6 +78,8 @@ export const getUserList = async (req: Request, res: Response): Promise<void> =>
         return
     }
 };
+
+
 
 export const listzodiac = async (req: Request, res: Response): Promise<void> => {
     try {

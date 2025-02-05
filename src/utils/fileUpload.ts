@@ -32,15 +32,15 @@ export const uploadFileToS3 = async ({ file, folder, userId }: UploadParams): Pr
         Bucket: process.env.AWS_S3_BUCKET_NAME || `drivers-booking`,
         Key: fileName,
     };
-    const fileExists = await checkIfFileExists(fileExistsParams);
+    // const fileExists = await checkIfFileExists(fileExistsParams);
 
-    if (fileExists) {
-        const deleteParams = {
-            Bucket: process.env.AWS_S3_BUCKET_NAME || `drivers-booking`,
-            Key: fileName,
-        };
-        await s3.send(new DeleteObjectCommand(deleteParams));
-    }
+    // if (fileExists) {
+    //     const deleteParams = {
+    //         Bucket: process.env.AWS_S3_BUCKET_NAME || `drivers-booking`,
+    //         Key: fileName,
+    //     };
+    //     await s3.send(new DeleteObjectCommand(deleteParams));
+    // }
 
     const uploadParams = {
         Bucket: process.env.AWS_S3_BUCKET_NAME || `drivers-booking`,

@@ -5,7 +5,7 @@ import adminRoutes from "./admin/adminRoutes";
 import roleAuthorization from "../../middleware/roleAuthorization";
 import userRoutes from "./userRoutes";
 import routes from "./routes";
-import { getMessages, saveMessage } from "../../controllers/chatController";
+import { getMessages, saveMessage , updateMsgStatus } from "../../controllers/chatController";
 import { endCall, startCall } from "../../controllers/callController";
 const router = Router();
 
@@ -25,6 +25,7 @@ router.use("/admin", roleAuthorization(["admin"]), adminRoutes);
 // calling 
 router.post('/messages', saveMessage);
 router.get('/messages/:roomId', getMessages);
+router.put('/messages-status-update/:roomId/:messageid', updateMsgStatus);
 router.post('/start', startCall);
 router.post('/end', endCall);
 
